@@ -8,4 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface UploadService {
     boolean uploadStudents(MultipartFile file);
+
+    boolean uploadTeachers(MultipartFile file);
 }

@@ -44,4 +44,23 @@ public class UploadController {
         }
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/teachers")
+    public ResponseEntity uploadTeachers(@RequestParam MultipartFile file){
+        log.info("上传老师信息表");
+        Result result = new Result();
+        if(file.isEmpty()){
+            result.setCode(400);
+            result.setMessage("请选择文件！");
+            return  ResponseEntity.ok(result);
+        }
+        boolean success = uploadService.uploadTeachers(file);
+        if( success ) {
+            result.setMessage("上传成功！");
+        } else {
+            result.setCode(500);
+            result.setMessage("上传失败！");
+        }
+        return ResponseEntity.ok(result);
+    }
 }
