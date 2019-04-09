@@ -5,6 +5,7 @@ import com.jiang.ssgp.domain.vo.Result;
 import com.jiang.ssgp.security.MyAuthenticationProvider;
 import com.jiang.ssgp.security.SecurityUtils;
 import com.jiang.ssgp.service.StudentService;
+import com.jiang.ssgp.service.TeacherService;
 import com.jiang.ssgp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,14 @@ public class AuthController {
     private final UserService userService;
     private final MyAuthenticationProvider myAuthenticationProvider;
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserService userService, MyAuthenticationProvider myAuthenticationProvider, StudentService studentService) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, MyAuthenticationProvider myAuthenticationProvider, StudentService studentService, TeacherService teacherService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.myAuthenticationProvider = myAuthenticationProvider;
         this.studentService = studentService;
+        this.teacherService = teacherService;
     }
 
     @PostMapping("/login")
@@ -58,6 +61,8 @@ public class AuthController {
                 result.setData(user);
             } else if ( null != studentService.findById(userId)){
                 result.setData(studentService.findById(userId));
+            } else if( null != teacherService.findById(userId)){
+                result.setData(teacherService.findById(userId));
             } else{
                 result.setCode(500);
                 result.setMessage("用户不存在！");

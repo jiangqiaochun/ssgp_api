@@ -1,6 +1,7 @@
 package com.jiang.ssgp.service;
 
 import com.jiang.ssgp.domain.po.Teacher;
+import com.jiang.ssgp.domain.po.User;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface TeacherService {
     Teacher save(Teacher teacher);
 
     List<Teacher> findAll();
+
+    Teacher findById(String userId);
 }

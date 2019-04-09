@@ -28,4 +28,9 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Teacher> findAll() {
         return teacherRepository.findAll();
     }
+
+    @Override
+    public Teacher findById(String userId) {
+        return teacherRepository.findById(userId).orElse(null);
+    }
 }
