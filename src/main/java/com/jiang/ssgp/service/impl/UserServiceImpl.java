@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService {
         return mongoTemplate.findAndModify(new Query(criteria), update, options, User.class);
     }
 
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
 }

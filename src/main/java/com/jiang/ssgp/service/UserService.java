@@ -12,4 +12,5 @@ public interface UserService {
 
     User changePsw(String userId, String newPsw);
 
+    User save(User user);
 }

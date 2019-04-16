@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/upload/students").permitAll()
                 .antMatchers("/upload/teachers").permitAll()
+                .antMatchers("/users/").permitAll()
                 .anyRequest().authenticated()
                 .and().rememberMe()
                 //设置记住我的时间为7天
