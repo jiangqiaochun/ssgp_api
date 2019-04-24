@@ -1,14 +1,13 @@
 package com.jiang.ssgp.controller;
 
+import com.jiang.ssgp.domain.po.Project;
 import com.jiang.ssgp.domain.po.Teacher;
 import com.jiang.ssgp.domain.vo.Result;
 import com.jiang.ssgp.service.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,4 +33,5 @@ public class TeacherController {
         result.setData(teacherList);
         return ResponseEntity.ok(result);
     }
+
 }
