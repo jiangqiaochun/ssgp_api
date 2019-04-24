@@ -1,6 +1,7 @@
 package com.jiang.ssgp.controller;
 
 import com.jiang.ssgp.domain.po.Project;
+import com.jiang.ssgp.domain.vo.ProjectVO;
 import com.jiang.ssgp.domain.vo.Result;
 import com.jiang.ssgp.service.ProjectService;
 import org.slf4j.Logger;
@@ -52,6 +53,15 @@ public class ProjectController {
         Result result = new Result();
         projectService.deleteById(projectId);
         result.setMessage("删除成功！");
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping()
+    public ResponseEntity findAll(){
+        log.info("获取所有毕业论文列表");
+        Result result = new Result();
+        List<ProjectVO> projectVOList = projectService.findAll();
+        result.setData(projectVOList);
         return ResponseEntity.ok(result);
     }
 }
