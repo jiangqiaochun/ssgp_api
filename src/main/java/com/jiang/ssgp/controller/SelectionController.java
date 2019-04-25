@@ -2,14 +2,12 @@ package com.jiang.ssgp.controller;
 
 import com.jiang.ssgp.domain.po.Selection;
 import com.jiang.ssgp.domain.vo.Result;
+import com.jiang.ssgp.domain.vo.SelectionVO;
 import com.jiang.ssgp.service.SelectionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/selections")
@@ -32,6 +30,15 @@ public class SelectionController {
         selection.setProjectId(projectId);
         selection = selectionService.save(selection);
         result.setData(selection);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{studentId}")
+    public ResponseEntity findByStudentId(@PathVariable String studentId){
+        log.info("查找学号" + studentId + "的选题");
+        Result result = new Result();
+        SelectionVO selectionVO = selectionService.findByStudentId(studentId);
+        result.setData(selectionVO);
         return ResponseEntity.ok(result);
     }
 }
