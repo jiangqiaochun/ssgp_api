@@ -12,5 +12,5 @@ public interface ProjectService {
 
     void deleteById(String projectId);
 
-    List<ProjectVO> findAll();
+    List<ProjectVO> findAll(String searchCondition);
 }

@@ -57,11 +57,12 @@ public class ProjectController {
     }
 
     @GetMapping()
-    public ResponseEntity findAll(){
-        log.info("获取所有毕业论文列表");
+    public ResponseEntity findAll(@RequestParam(required = false) String searchCondition){
+        log.info("获取所有毕业论文列表, 搜索条件为：" + searchCondition);
         Result result = new Result();
-        List<ProjectVO> projectVOList = projectService.findAll();
+        List<ProjectVO> projectVOList = projectService.findAll(searchCondition);
         result.setData(projectVOList);
         return ResponseEntity.ok(result);
     }
+
 }

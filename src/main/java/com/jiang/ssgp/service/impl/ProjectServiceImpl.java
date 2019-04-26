@@ -6,6 +6,9 @@ import com.jiang.ssgp.domain.vo.ProjectVO;
 import com.jiang.ssgp.repository.ProjectRepository;
 import com.jiang.ssgp.repository.TeacherRepository;
 import com.jiang.ssgp.service.ProjectService;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,10 +18,12 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final TeacherRepository teacherRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, TeacherRepository teacherRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, TeacherRepository teacherRepository, MongoTemplate mongoTemplate) {
         this.projectRepository = projectRepository;
         this.teacherRepository = teacherRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Override
@@ -37,10 +42,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectVO> findAll() {
-        List<Project> projectList = projectRepository.findAll();
-        List<ProjectVO> projectVOList =  new ArrayList<>();
-        for( Project project : projectList){
+    public List<ProjectVO> findAll(String searchCondition) {
+        List<ProjectVO> projectVOList = new ArrayList<>();
+        List<Project> projectList;
+        if( null == searchCondition) {
+            projectList = projectRepository.findAll();
+        }else{
+            Criteria criteria = Criteria.where("projectName").regex(".*" + searchCondition + ".*");
+            Query query = new Query(criteria);
+            projectList = mongoTemplate.find(query, Project.class);
+        }
+        for (Project project : projectList) {
             ProjectVO projectVO = new ProjectVO(project.getId(),
                     project.getProjectName(),
                     project.getProjectNature(),
