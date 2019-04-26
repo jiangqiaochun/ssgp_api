@@ -32,8 +32,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findByTeacherId(String teacherId) {
-        return projectRepository.findByTeacherId(teacherId);
+    public List<ProjectVO> findByTeacherId(String teacherId) {
+        List<Project> projects = projectRepository.findByTeacherId(teacherId);
+        List<ProjectVO> projectVOList = new ArrayList<>();
+        for (Project project : projects) {
+            ProjectVO projectVO = new ProjectVO(project.getId(),
+                    project.getProjectName(),
+                    project.getProjectNature(),
+                    project.getProjectType());
+            Teacher teacher = teacherRepository.findById(project.getTeacherId()).orElse(null);
+            projectVO.setTeacherName(teacher.getTeacherName());
+            projectVOList.add(projectVO);
+        }
+        return projectVOList;
     }
 
     @Override

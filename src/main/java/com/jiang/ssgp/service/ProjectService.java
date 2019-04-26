@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProjectService {
     Project saveByTeacherId(Project project);
 
-    List<Project> findByTeacherId(String teacherId);
+    List<ProjectVO> findByTeacherId(String teacherId);
 
     void deleteById(String projectId);
 

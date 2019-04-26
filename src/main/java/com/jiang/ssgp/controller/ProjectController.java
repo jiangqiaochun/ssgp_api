@@ -42,8 +42,8 @@ public class ProjectController {
     public ResponseEntity getByTeacherId(@PathVariable String teacherId){
         log.info("获取" + teacherId + "的课题列表");
         Result result = new Result();
-        List<Project> projectList = projectService.findByTeacherId(teacherId);
-        result.setData(projectList);
+        List<ProjectVO> projectVOList = projectService.findByTeacherId(teacherId);
+        result.setData(projectVOList);
         return ResponseEntity.ok(result);
     }
 
