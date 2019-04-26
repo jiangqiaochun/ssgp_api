@@ -6,6 +6,9 @@ import lombok.Data;
 public class SelectionVO {
     private String id;
     private String studentId;
+    private String studentName;
+    private String studentClassNum;
+    private String studentPhoneNum;
     private String projectId;
     private String projectName;
     private String projectNature;

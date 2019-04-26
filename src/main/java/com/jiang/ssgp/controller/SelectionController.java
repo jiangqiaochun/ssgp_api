@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/selections")
 public class SelectionController {
@@ -39,6 +41,15 @@ public class SelectionController {
         Result result = new Result();
         SelectionVO selectionVO = selectionService.findByStudentId(studentId);
         result.setData(selectionVO);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping()
+    public ResponseEntity findAll(){
+        log.info("查看所有选题情况列表");
+        Result result = new Result();
+        List<SelectionVO> selectionVOList = selectionService.findAll();
+        result.setData(selectionVOList);
         return ResponseEntity.ok(result);
     }
 }
