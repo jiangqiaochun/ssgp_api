@@ -34,4 +34,24 @@ public class TeacherController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/{teacherId}")
+    public ResponseEntity findByTeacherId(@PathVariable String teacherId){
+        Result result = new Result();
+        Teacher teacher = teacherService.findById(teacherId);
+        result.setData(teacher);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/{teacherId}")
+    public ResponseEntity changePhone(@PathVariable String teacherId,
+                                      @RequestParam String newPhone){
+        log.info("老师" + teacherId + "修改新号码：" + newPhone);
+        Result result = new Result();
+        Teacher teacher = teacherService.findById(teacherId);
+        teacher.setPhoneNum(newPhone);
+        teacher = teacherService.save(teacher);
+        result.setData(teacher);
+        return ResponseEntity.ok(result);
+    }
+
 }
