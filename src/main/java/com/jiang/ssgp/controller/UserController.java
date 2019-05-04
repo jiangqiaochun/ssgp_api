@@ -2,12 +2,14 @@ package com.jiang.ssgp.controller;
 
 import com.jiang.ssgp.domain.po.User;
 import com.jiang.ssgp.domain.vo.Result;
-import com.jiang.ssgp.service.UserService;
+import com.jiang.ssgp.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jqc
@@ -19,9 +21,17 @@ public class UserController {
     private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
+    private final StudentService studentService;
+    private final SelectionService selectionService;
+    private final ProjectService projectService;
+    private final TeacherService teacherService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, StudentService studentService, SelectionService selectionService, ProjectService projectService, TeacherService teacherService) {
         this.userService = userService;
+        this.studentService = studentService;
+        this.selectionService = selectionService;
+        this.projectService = projectService;
+        this.teacherService = teacherService;
     }
 
     @GetMapping("/{userId}")
@@ -51,6 +61,20 @@ public class UserController {
         user.setPassword(password);
         user.setCharacter("Admin");
         result.setData(userService.save(user));
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/statistics")
+    public ResponseEntity getStatistics(){
+        log.info("获取数据统计");
+        Result result = new Result();
+        Map<String, Integer> map = new HashMap<>();
+        map.put("studentCount", studentService.findAll().size());
+        map.put("selectedStudent", selectionService.findAll().size());
+        map.put("projectCount", projectService.findAll(null).size());
+        map.put("selectedProject", selectionService.findAll().size());
+        map.put("teacherCount", teacherService.findAll().size());
+        result.setData(map);
         return ResponseEntity.ok(result);
     }
 
