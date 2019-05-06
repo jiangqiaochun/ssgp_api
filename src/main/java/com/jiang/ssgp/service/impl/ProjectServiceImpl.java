@@ -1,9 +1,13 @@
 package com.jiang.ssgp.service.impl;
 
 import com.jiang.ssgp.domain.po.Project;
+import com.jiang.ssgp.domain.po.Selection;
+import com.jiang.ssgp.domain.po.Student;
 import com.jiang.ssgp.domain.po.Teacher;
 import com.jiang.ssgp.domain.vo.ProjectVO;
 import com.jiang.ssgp.repository.ProjectRepository;
+import com.jiang.ssgp.repository.SelectionRepository;
+import com.jiang.ssgp.repository.StudentRepository;
 import com.jiang.ssgp.repository.TeacherRepository;
 import com.jiang.ssgp.service.ProjectService;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,11 +23,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final TeacherRepository teacherRepository;
     private final MongoTemplate mongoTemplate;
+    private final SelectionRepository selectionRepository;
+    private final StudentRepository studentRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, TeacherRepository teacherRepository, MongoTemplate mongoTemplate) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, TeacherRepository teacherRepository, MongoTemplate mongoTemplate, SelectionRepository selectionRepository, StudentRepository studentRepository) {
         this.projectRepository = projectRepository;
         this.teacherRepository = teacherRepository;
         this.mongoTemplate = mongoTemplate;
+        this.selectionRepository = selectionRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -69,6 +77,11 @@ public class ProjectServiceImpl implements ProjectService {
                     project.getProjectNature(),
                     project.getProjectType());
             Teacher teacher = teacherRepository.findById(project.getTeacherId()).orElse(null);
+            Selection selection = selectionRepository.findByProjectId(project.getId());
+            if( null != selection ){
+                Student student = studentRepository.findById(selection.getStudentId()).orElse(null);
+                projectVO.setSelectedStudentName(student.getStudentName());
+            }
             projectVO.setTeacherName(teacher.getTeacherName());
             projectVOList.add(projectVO);
         }

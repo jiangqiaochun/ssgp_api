@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SelectionRepository extends MongoRepository<Selection, String> {
     Selection findByStudentId(String studentId);
+
+    Selection findByProjectId(String id);
 }
