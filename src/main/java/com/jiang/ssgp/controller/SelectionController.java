@@ -30,8 +30,27 @@ public class SelectionController {
         Selection selection = new Selection();
         selection.setStudentId(studentId);
         selection.setProjectId(projectId);
+        selection.setStatus("审核中");
         selection = selectionService.save(selection);
         result.setData(selection);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable String id){
+        log.info("删除id为：" + id + "的选题");
+        Result result = new Result();
+        selectionService.delete(id);
+        result.setMessage("删除成功！");
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{projectId}")
+    public ResponseEntity examine(@PathVariable String projectId){
+        log.info("审核课题：" + projectId);
+        Result result = new Result();
+        selectionService.examine(projectId);
+        result.setMessage("success");
         return ResponseEntity.ok(result);
     }
 
@@ -40,7 +59,12 @@ public class SelectionController {
         log.info("查找学号" + studentId + "的选题");
         Result result = new Result();
         SelectionVO selectionVO = selectionService.findByStudentId(studentId);
-        result.setData(selectionVO);
+        if(null == selectionVO){
+            result.setCode(1001);
+            result.setMessage("暂无选题");
+        } else {
+            result.setData(selectionVO);
+        }
         return ResponseEntity.ok(result);
     }
 

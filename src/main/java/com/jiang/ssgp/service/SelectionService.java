@@ -11,4 +11,8 @@ public interface SelectionService {
     SelectionVO findByStudentId(String studentId);
 
     List<SelectionVO> findAll();
+
+    void delete(String id);
+
+    void examine(String id);
 }

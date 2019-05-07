@@ -10,6 +10,8 @@ public class ProjectVO {
     private String projectType;
     private String teacherName;
     private String selectedStudentName;
+    private String projectStatus;
+    private String selectionStatus;
 
     public ProjectVO (){}
     public ProjectVO (String projectId, String projectName, String projectNature, String projectType){

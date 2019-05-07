@@ -4,10 +4,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-public class Selection {
+public class SystemOpenTime {
     @Id
     private String id;
-    private String studentId;
-    private String projectId;
-    private String status;
+    private String startTime;
+    private String endTime;
 }

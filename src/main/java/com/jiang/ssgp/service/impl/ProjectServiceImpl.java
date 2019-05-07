@@ -48,8 +48,15 @@ public class ProjectServiceImpl implements ProjectService {
                     project.getProjectName(),
                     project.getProjectNature(),
                     project.getProjectType());
+            projectVO.setProjectStatus(project.getStatus());
             Teacher teacher = teacherRepository.findById(project.getTeacherId()).orElse(null);
             projectVO.setTeacherName(teacher.getTeacherName());
+            Selection selection = selectionRepository.findByProjectId(project.getId());
+            if( null != selection ){
+                Student student = studentRepository.findById(selection.getStudentId()).orElse(null);
+                projectVO.setSelectedStudentName(student.getStudentName());
+                projectVO.setSelectionStatus(selection.getStatus());
+            }
             projectVOList.add(projectVO);
         }
         return projectVOList;
@@ -86,5 +93,12 @@ public class ProjectServiceImpl implements ProjectService {
             projectVOList.add(projectVO);
         }
         return projectVOList;
+    }
+
+    @Override
+    public void examineSuccess(String projectId) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        project.setStatus("审核通过");
+        projectRepository.save(project);
     }
 }

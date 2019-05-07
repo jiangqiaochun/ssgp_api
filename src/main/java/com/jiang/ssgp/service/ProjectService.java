@@ -13,4 +13,6 @@ public interface ProjectService {
     void deleteById(String projectId);
 
     List<ProjectVO> findAll(String searchCondition);
+
+    void examineSuccess(String projectId);
 }

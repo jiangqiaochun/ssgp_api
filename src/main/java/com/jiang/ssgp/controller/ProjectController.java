@@ -33,6 +33,7 @@ public class ProjectController {
         project.setProjectType(projectType);
         project.setProjectNature(projectNature);
         project.setTeacherId(teacherId);
+        project.setStatus("教务处审核中");
         project = projectService.saveByTeacherId(project);
         result.setData(project);
         return ResponseEntity.ok(result);
@@ -53,6 +54,15 @@ public class ProjectController {
         Result result = new Result();
         projectService.deleteById(projectId);
         result.setMessage("删除成功！");
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{projectId}")
+    public ResponseEntity examineSuccess(@PathVariable String projectId){
+        log.info("管理员审核课题" + projectId);
+        Result result = new Result();
+        projectService.examineSuccess(projectId);
+        result.setMessage("审核完成");
         return ResponseEntity.ok(result);
     }
 

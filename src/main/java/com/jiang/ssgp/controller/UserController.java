@@ -1,5 +1,6 @@
 package com.jiang.ssgp.controller;
 
+import com.jiang.ssgp.domain.po.SystemOpenTime;
 import com.jiang.ssgp.domain.po.User;
 import com.jiang.ssgp.domain.vo.Result;
 import com.jiang.ssgp.service.*;
@@ -25,13 +26,15 @@ public class UserController {
     private final SelectionService selectionService;
     private final ProjectService projectService;
     private final TeacherService teacherService;
+    private final SystemOpenTimeService systemOpenTimeService;
 
-    public UserController(UserService userService, StudentService studentService, SelectionService selectionService, ProjectService projectService, TeacherService teacherService) {
+    public UserController(UserService userService, StudentService studentService, SelectionService selectionService, ProjectService projectService, TeacherService teacherService, SystemOpenTimeService systemOpenTimeService) {
         this.userService = userService;
         this.studentService = studentService;
         this.selectionService = selectionService;
         this.projectService = projectService;
         this.teacherService = teacherService;
+        this.systemOpenTimeService = systemOpenTimeService;
     }
 
     @GetMapping("/{userId}")
@@ -75,6 +78,42 @@ public class UserController {
         map.put("selectedProject", selectionService.findAll().size());
         map.put("teacherCount", teacherService.findAll().size());
         result.setData(map);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/openTime")
+    public ResponseEntity setOpenTime(@RequestParam String startTime,
+                                      @RequestParam String endTime){
+        log.info("设置系统开放时间");
+        Result result = new Result();
+        SystemOpenTime systemOpenTime = new SystemOpenTime();
+        systemOpenTime.setStartTime(startTime);
+        systemOpenTime.setEndTime(endTime);
+        systemOpenTime = systemOpenTimeService.save(systemOpenTime);
+        result.setData(systemOpenTime);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/openTime/{id}")
+    public ResponseEntity getOpenTime(@PathVariable String id){
+        log.info("获取系统开放时间");
+        Result result = new Result();
+        SystemOpenTime systemOpenTime = systemOpenTimeService.findOne(id);
+        result.setData(systemOpenTime);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/openTime/{id}")
+    public ResponseEntity updateById(@PathVariable String id,
+                                     @RequestParam String startTime,
+                                     @RequestParam String endTime){
+        log.info("修改开放时间");
+        Result result = new Result();
+        SystemOpenTime systemOpenTime = systemOpenTimeService.findOne(id);
+        systemOpenTime.setStartTime(startTime);
+        systemOpenTime.setEndTime(endTime);
+        systemOpenTime = systemOpenTimeService.save(systemOpenTime);
+        result.setData(systemOpenTime);
         return ResponseEntity.ok(result);
     }
 

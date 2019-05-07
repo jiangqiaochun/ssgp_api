@@ -38,6 +38,9 @@ public class SelectionServiceImpl implements SelectionService {
     public SelectionVO findByStudentId(String studentId) {
         SelectionVO selectionVO = new SelectionVO();
         Selection selection = selectionRepository.findByStudentId(studentId);
+        if( null == selection){
+            return null;
+        }
         Project project = projectRepository.findById(selection.getProjectId()).orElse(null);
         Teacher teacher = teacherRepository.findById(project.getTeacherId()).orElse(null);
         selectionVO.setId(selection.getId());
@@ -48,6 +51,7 @@ public class SelectionServiceImpl implements SelectionService {
         selectionVO.setTeacherName(teacher.getTeacherName());
         selectionVO.setTeacherJobTitle(teacher.getJobTitle());
         selectionVO.setTeacherPhoneNum(teacher.getPhoneNum());
+        selectionVO.setStatus(selection.getStatus());
         return selectionVO;
     }
 
@@ -75,5 +79,17 @@ public class SelectionServiceImpl implements SelectionService {
             selectionVOList.add(selectionVO);
         }
         return selectionVOList;
+    }
+
+    @Override
+    public void delete(String id) {
+        selectionRepository.deleteById(id);
+    }
+
+    @Override
+    public void examine(String id) {
+        Selection selection = selectionRepository.findByProjectId(id);
+        selection.setStatus("审核成功");
+        selectionRepository.save(selection);
     }
 }

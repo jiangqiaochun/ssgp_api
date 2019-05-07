@@ -13,4 +13,5 @@ public class Project {
     private String projectType;
     private String projectNature;
     private String teacherId;
+    private String status;
 }

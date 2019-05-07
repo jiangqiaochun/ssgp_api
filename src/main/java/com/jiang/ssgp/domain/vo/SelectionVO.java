@@ -16,4 +16,5 @@ public class SelectionVO {
     private String teacherName;
     private String teacherJobTitle;
     private String teacherPhoneNum;
+    private String status;
 }
