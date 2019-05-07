@@ -35,4 +35,14 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.findById(userId).orElse(null);
     }
 
+    @Override
+    public void deleteAll() {
+        teacherRepository.deleteAll();
+    }
+
+    @Override
+    public void deleteById(String teacherId) {
+        teacherRepository.deleteById(teacherId);
+    }
+
 }

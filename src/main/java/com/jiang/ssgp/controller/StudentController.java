@@ -54,4 +54,20 @@ public class StudentController {
         result.setData(student);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping()
+    public ResponseEntity deleteAll(){
+        log.info("删除所有学生信息");
+        Result result = new Result();
+        studentService.deleteAll();
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{studentId}")
+    public ResponseEntity deleteById(@PathVariable String studentId){
+        log.info("删除学号为:" + studentId + "的学生信息");
+        Result result = new Result();
+        studentService.deleteById(studentId);
+        return ResponseEntity.ok(result);
+    }
 }

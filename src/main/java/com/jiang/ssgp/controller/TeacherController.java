@@ -54,4 +54,20 @@ public class TeacherController {
         return ResponseEntity.ok(result);
     }
 
+    @DeleteMapping()
+    public ResponseEntity deleteAll(){
+        log.info("删除所有老师列表");
+        Result result = new Result();
+        teacherService.deleteAll();
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{teacherId}")
+    public ResponseEntity deleteById(@PathVariable String teacherId){
+        log.info("删除工号为：" + teacherId + "的老师");
+        Result result = new Result();
+        teacherService.deleteById(teacherId);
+        return ResponseEntity.ok(result);
+    }
+
 }

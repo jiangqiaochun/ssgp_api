@@ -17,4 +17,7 @@ public interface TeacherService {
 
     Teacher findById(String userId);
 
+    void deleteAll();
+
+    void deleteById(String teacherId);
 }

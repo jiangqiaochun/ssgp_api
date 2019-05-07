@@ -15,4 +15,8 @@ public interface StudentService {
     Student findById(String userId);
 
     List<Student> findAll();
+
+    void deleteAll();
+
+    void deleteById(String studentId);
 }
