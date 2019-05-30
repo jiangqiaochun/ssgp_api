@@ -1,9 +1,13 @@
 package com.jiang.ssgp.controller;
 
+import com.jiang.ssgp.domain.po.Project;
 import com.jiang.ssgp.domain.po.Selection;
+import com.jiang.ssgp.domain.po.Teacher;
 import com.jiang.ssgp.domain.vo.Result;
 import com.jiang.ssgp.domain.vo.SelectionVO;
+import com.jiang.ssgp.service.ProjectService;
 import com.jiang.ssgp.service.SelectionService;
+import com.jiang.ssgp.service.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +21,13 @@ public class SelectionController {
     private Logger log = LoggerFactory.getLogger(SelectionController.class);
 
     private final SelectionService selectionService;
+    private final ProjectService projectService;
+    private final TeacherService teacherService;
 
-    public SelectionController(SelectionService selectionService) {
+    public SelectionController(SelectionService selectionService, ProjectService projectService, TeacherService teacherService) {
         this.selectionService = selectionService;
+        this.projectService = projectService;
+        this.teacherService = teacherService;
     }
 
     @PostMapping()
@@ -27,11 +35,20 @@ public class SelectionController {
                                @RequestParam String projectId){
         log.info("学生" + studentId + "选择的题目为：" + projectId);
         Result result = new Result();
+        Project project = projectService.findById(projectId);
+        Teacher teacher = teacherService.findById(project.getTeacherId());
+        if( teacher.getSelectedNum() >= teacher.getMaxStudentNum()){
+            result.setCode(1001);
+            result.setMessage("该老师所带学生达最大数量");
+            return ResponseEntity.ok(result);
+        }
         Selection selection = new Selection();
         selection.setStudentId(studentId);
         selection.setProjectId(projectId);
         selection.setStatus("审核中");
         selection = selectionService.save(selection);
+        teacher.setSelectedNum(teacher.getSelectedNum() + 1);
+        teacherService.save(teacher);
         result.setData(selection);
         return ResponseEntity.ok(result);
     }

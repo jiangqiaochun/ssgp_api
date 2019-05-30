@@ -17,8 +17,13 @@ public class Teacher {
     private String id;
     private String teacherName;
     private String password = new String("123456");
+    private String sex;
     private String jobTitle;
     private String phoneNum;
+    //可带学生最大数
+    private Integer maxStudentNum;
+    //已带学生数
+    private Integer selectedNum = 0;
     private String character = "Teacher";
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();

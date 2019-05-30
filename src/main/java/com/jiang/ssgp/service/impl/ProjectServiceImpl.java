@@ -71,13 +71,17 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectVO> findAll(String searchCondition) {
         List<ProjectVO> projectVOList = new ArrayList<>();
         List<Project> projectList;
-        if( null == searchCondition) {
-            projectList = projectRepository.findAll();
-        }else{
-            Criteria criteria = Criteria.where("projectName").regex(".*" + searchCondition + ".*");
-            Query query = new Query(criteria);
-            projectList = mongoTemplate.find(query, Project.class);
+        Criteria criteria = Criteria.where("status").is("审核通过");
+        List<Criteria> criteriaList = new ArrayList<>();
+        criteriaList.add(criteria);
+        if( null != searchCondition) {
+            Criteria criteria1 = Criteria.where("projectName").regex(".*" + searchCondition + ".*");
+            criteriaList.add(criteria1);
         }
+        Criteria[] criteriaArr = new Criteria[criteriaList.size()];
+        criteriaList.toArray(criteriaArr);
+        Query query = new Query(new Criteria().andOperator(criteriaArr));
+        projectList = mongoTemplate.find(query, Project.class);
         for (Project project : projectList) {
             ProjectVO projectVO = new ProjectVO(project.getId(),
                     project.getProjectName(),
@@ -100,5 +104,10 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.findById(projectId).orElse(null);
         project.setStatus("审核通过");
         projectRepository.save(project);
+    }
+
+    @Override
+    public Project findById(String projectId) {
+        return projectRepository.findById(projectId).orElse(null);
     }
 }

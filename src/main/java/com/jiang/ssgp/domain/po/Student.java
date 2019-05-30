@@ -17,6 +17,9 @@ public class Student {
     private String id;
     private String studentName;
     private String password = new String("123456");
+    private String sex;
+    private String college;
+    private String professional;
     private String classNum;
     private String phoneNum;
     private String character = "Student";

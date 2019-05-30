@@ -18,7 +18,6 @@ public class User {
     private String userName;
     private String phoneNum;
     private String password;
-    private String college;
     private String character;
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();

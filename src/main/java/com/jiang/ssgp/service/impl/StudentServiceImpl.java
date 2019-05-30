@@ -3,6 +3,7 @@ package com.jiang.ssgp.service.impl;
 import com.jiang.ssgp.domain.po.Student;
 import com.jiang.ssgp.repository.StudentRepository;
 import com.jiang.ssgp.service.StudentService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAll() {
-        return studentRepository.findAll();
+        Sort sort = new Sort(Sort.Order.asc("id"));
+        return studentRepository.findAll(sort);
     }
 
     @Override

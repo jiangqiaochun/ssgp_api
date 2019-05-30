@@ -61,7 +61,10 @@ public class UploadServiceImpl implements UploadService {
                 Student student = new Student();
                 student.setId(readResult.get(i).get(1));
                 student.setStudentName(readResult.get(i).get(2));
-                student.setClassNum(readResult.get(i).get(3));
+                student.setSex(readResult.get(i).get(3));
+                student.setCollege(readResult.get(i).get(4));
+                student.setProfessional(readResult.get(i).get(5));
+                student.setClassNum(readResult.get(i).get(6));
                 studentService.save(student);
             }
             return true;
@@ -106,8 +109,10 @@ public class UploadServiceImpl implements UploadService {
                 Teacher teacher = new Teacher();
                 teacher.setId(readResult.get(i).get(1));
                 teacher.setTeacherName(readResult.get(i).get(2));
-                teacher.setJobTitle(readResult.get(i).get(3));
-                teacher.setPhoneNum(readResult.get(i).get(4));
+                teacher.setSex(readResult.get(i).get(3));
+                teacher.setJobTitle(readResult.get(i).get(4));
+                teacher.setMaxStudentNum(Integer.valueOf(readResult.get(i).get(5)));
+                teacher.setPhoneNum(readResult.get(i).get(6));
                 teacherService.save(teacher);
             }
             return true;

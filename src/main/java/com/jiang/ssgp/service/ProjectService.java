@@ -15,4 +15,6 @@ public interface ProjectService {
     List<ProjectVO> findAll(String searchCondition);
 
     void examineSuccess(String projectId);
+
+    Project findById(String projectId);
 }
